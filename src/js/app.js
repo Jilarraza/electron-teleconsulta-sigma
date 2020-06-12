@@ -1,6 +1,8 @@
 const electron = require('electron');
+const remote = electron.remote;
 const ipcRenderer = electron.ipcRenderer;
 const display_content = document.querySelector('#display-content');
+const botones = document.querySelector('#botones');
 
 ipcRenderer.on('room_data', (event, data) => {
     display_content.innerHTML = generateDisplayContent();
@@ -90,12 +92,32 @@ ipcRenderer.on('room_data', (event, data) => {
             showConfirmButton: false
         });
     });
+    firebase.auth().signInAnonymously().then((user) => {
+        console.log(user);
+        addUserToChatRoom(room_id);
+        botones.innerHTML = generateButton();
+    }).catch(function(error) {
+        console.log('error');
+    });
 });
 
 ipcRenderer.on('stand_alone_run', (event, data) => {
     display_content.innerHTML = generateDisplayContent();
     changeView("home", "");
+    window.setTimeout(function () {
+        let browserWindow = remote.getCurrentWindow();
+        browserWindow.close();
+    }, 5000);
 });
+
+const generateButton = () => {
+    let innerHtml = /*html*/`
+            <li class="nav-item">
+                <a class="nav-link" onclick="toggleChat()"> <i class="icon icon-CV_Chat"></i> Chat</a>
+            </li>
+        `;
+    return innerHtml;
+}
 
 const getRates = () => {
     let rate_answer = 0;
@@ -107,6 +129,43 @@ const getRates = () => {
         }
     }
     Swal.close();
+    let browserWindow = remote.getCurrentWindow();
+    browserWindow.close();
+}
+
+const toggleChat = () => {
+    let element = document.getElementById("chat");
+    if (element.classList.contains('d-none')){
+        element.classList.remove("d-none");
+    }else{
+        element.classList.add("d-none");
+    }
+}
+
+const sendMessage = () => {
+    let message = document.querySelector("#message");
+    if(message.value == ''){
+        return;
+    }
+    newMessage(message.value);
+    let liMessage = document.createElement('li');
+    liMessage.className = 'enviado';
+    document.querySelector('#chat-container').appendChild(liMessage);
+    let pMessage = document.createElement('p');
+    pMessage.innerHTML = message.value;
+    liMessage.appendChild(pMessage);
+    message.value ='';
+    document.querySelector('.scroll-chat').scrollTop =  document.querySelector('.scroll-chat').scrollHeight;
+}
+
+const addMessage = (email, message) => {
+    var liMessage = document.createElement('li');
+    liMessage.className = 'respuesta';
+    document.querySelector('#chat-container').appendChild(liMessage);
+    var pMessage = document.createElement('p');
+    pMessage.innerHTML = message;
+    liMessage.appendChild(pMessage);
+    document.querySelector('.scroll-chat').scrollTop =  document.querySelector('.scroll-chat').scrollHeight;
 }
 
 const changeView = (view, last) => {
@@ -153,6 +212,17 @@ const generateDisplayContent = () => {
                 </section>
             </div>
         </div>
+        <section class="chat animated zoomIn faster d-none" id="chat">
+            <span class="btn btn-verde d-flex justify-content-center" onclick="toggleChat()">Ocultar chat</span>
+            <div class="scroll-chat px-2">
+                <ul id="chat-container">
+                </ul>
+            </div>
+            <div class="input-action px-2">
+                <input type="text" class="form-control mb-3" id="message"/>
+                <i class="icon icon-CV_enviar text-azul" onclick="sendMessage()"></i>
+            </div>
+        </section>
     `;
     return innerHTML;
 }

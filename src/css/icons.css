@@ -1,0 +1,78 @@
+@font-face {
+    font-family: 'consultorio_virtual';
+    src: url('../fonts/icons/consultorio_virtual.eot?dsl8q0');
+    src: url('../fonts/icons/consultorio_virtual.eot?dsl8q0#iefix') format('embedded-opentype'),
+        url('../fonts/icons/consultorio_virtual.ttf?dsl8q0') format('truetype'),
+        url('../fonts/icons/consultorio_virtual.woff?dsl8q0') format('woff'),
+        url('../fonts/icons/consultorio_virtual.svg?dsl8q0#consultorio_virtual') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'consultorio_virtual' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-CV_cancelar_llamada:before {
+  content: "\e90a";
+}
+.icon-CV_comparitr_archivo:before {
+  content: "\e90b";
+}
+.icon-CV_compartir_pantalla:before {
+  content: "\e90c";
+}
+.icon-CV_grabando:before {
+  content: "\e90d";
+}
+.icon-CV_mute:before {
+  content: "\e90e";
+}
+.icon-CV_sin_camara:before {
+  content: "\e90f";
+}
+.icon-CV_sin_grabar:before {
+  content: "\e910";
+}
+.icon-CV_actualizar:before {
+  content: "\e904";
+}
+.icon-CV_agregar:before {
+  content: "\e905";
+}
+.icon-CV_apple:before {
+  content: "\e906";
+}
+.icon-CV_cerrar:before {
+  content: "\e907";
+}
+.icon-CV_google:before {
+  content: "\e908";
+}
+.icon-CV_microsoft:before {
+  content: "\e909";
+}
+.icon-CV_enviar:before {
+  content: "\e903";
+}
+.icon-CV_Chat:before {
+  content: "\e900";
+}
+.icon-CV_microfono:before {
+  content: "\e901";
+}
+.icon-CV_videollamada:before {
+  content: "\e902";
+}

@@ -18,20 +18,17 @@ const createWindow = () => {
       nodeIntegration: true
     }
   });
-
+  mainWindow.setMenu(null);
+  mainWindow.maximize();
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.setMenu(null);
-
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
-
   if (process.platform == 'win32') {
     // Keep only command line / deep linked arguments
     deeplinkingUrl = process.argv.slice(1);
     //console.log(deeplinkingUrl);
   }
-
   mainWindow.webContents.on('did-finish-load', function() {
     // mainWindow.webContents.executeJavaScript(`console.log("${deeplinkingUrl}")`);
     if((deeplinkingUrl[0] == ".") || (deeplinkingUrl[0] == null) || (deeplinkingUrl[0] == '--squirrel-firstrun')){
