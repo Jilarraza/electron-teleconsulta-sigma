@@ -250,7 +250,7 @@ const generateDisplayContent = () => {
             </div>
             <div class="input-action px-2">
                 <input type="text" class="form-control mb-3" id="message"/>
-                <i class="icon icon-CV_adjuntar text-azul" onclick="uploadFile()" id="upload_files_button"></i>
+                <i class="icon icon-CV_adjuntar text-azul" onclick="uploadFile()" id="upload_file_button"></i>
                 <i class="icon icon-CV_enviar text-azul" onclick="sendMessage()"></i>
             </div>
             <input type="file" id="upload_file" style="display: none;"/>
