@@ -23,7 +23,7 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   if (process.platform == 'win32') {
     // Keep only command line / deep linked arguments
     deeplinkingUrl = process.argv.slice(1);
