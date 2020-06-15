@@ -3,6 +3,7 @@ const remote = electron.remote;
 const ipcRenderer = electron.ipcRenderer;
 const display_content = document.querySelector('#display-content');
 const botones = document.querySelector('#botones');
+let file_to_upload;
 
 ipcRenderer.on('room_data', (event, data) => {
     display_content.innerHTML = generateDisplayContent();
@@ -195,6 +196,32 @@ const changeView = (view, last) => {
     }
 }
 
+const uploadFile = () => {
+    const upload_file = document.querySelector('#upload_file');
+    const upload_file_progress = document.querySelector('#upload_file_progress');
+    const upload_file_button = document.querySelector('#upload_file_button');
+    upload_file.click();
+    upload_file.addEventListener("change", function(e) {
+        if(upload_file.files[0]){
+            upload_file_progress.style.display = "block";
+            upload_file_button.style.display = "none";
+            uploadFirebaseFile(upload_file.files[0]);
+        }
+    });
+}
+
+const updateProgressValue = (value) => {
+    const upload_file_progress = document.querySelector('#upload_file_progress');
+    upload_file_progress.value = value;
+}
+
+const hideProgressBar = () => {
+    const upload_file_progress = document.querySelector('#upload_file_progress');
+    upload_file_progress.style.display = "none";
+    const upload_file_button = document.querySelector('#upload_file_button');
+    upload_file_button.style.display = "block";
+}
+
 const generateDisplayContent = () => {
     let innerHTML = /*html*/`
         <div class="row mt-2">
@@ -219,9 +246,14 @@ const generateDisplayContent = () => {
                 </ul>
             </div>
             <div class="input-action px-2">
+                <progress value="0" max="100" id="upload_file_progress" style="display:none; width:100%"></progress>
+            </div>
+            <div class="input-action px-2">
                 <input type="text" class="form-control mb-3" id="message"/>
+                <i class="icon icon-CV_adjuntar text-azul" onclick="uploadFile()" id="upload_files_button"></i>
                 <i class="icon icon-CV_enviar text-azul" onclick="sendMessage()"></i>
             </div>
+            <input type="file" id="upload_file" style="display: none;"/>
         </section>
     `;
     return innerHTML;

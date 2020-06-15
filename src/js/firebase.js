@@ -36,3 +36,32 @@ const newMessage = (message) => {
     let newMessage = messagesRef.push({ uid : user_uid_firebase, message : message });
     newMessage.remove();
 }
+
+const uploadFirebaseFile = (file) => {
+    let storage = firebase.storage().ref(file.name);
+    let upload = storage.put(file);
+    upload.on("state_changed",
+        function progress(snapshot) {
+            let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            updateProgressValue(percentage);
+        },
+        function error(error) {
+            hideProgressBar();
+        },
+        function complete() {
+            hideProgressBar();
+            storage.getDownloadURL().then(function(url) {
+                newMessage(`<a href="${url}" download>${file.name}</a>`);
+                let liMessage = document.createElement('li');
+                liMessage.className = 'enviado';
+                document.querySelector('#chat-container').appendChild(liMessage);
+                let pMessage = document.createElement('p');
+                pMessage.innerHTML = `<a href="${url}" download>${file.name}</a>`;
+                liMessage.appendChild(pMessage);
+                document.querySelector('.scroll-chat').scrollTop =  document.querySelector('.scroll-chat').scrollHeight;
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
+    );
+}

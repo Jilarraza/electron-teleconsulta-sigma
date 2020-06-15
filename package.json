@@ -1,7 +1,7 @@
 {
   "name": "teleconsulta-sigma",
   "productName": "SD TeleConsulta",
-  "version": "1.2.4",
+  "version": "1.3.4",
   "description": "Aplicacion de enlace a plataforma TeleConsulta de SD Sigma.",
   "main": "src/index.js",
   "scripts": {
@@ -28,7 +28,8 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "teleconsulta_sigma"
+            "name": "teleconsulta_sigma",
+            "setupIcon": "src/icon.ico"
           }
         },
         {

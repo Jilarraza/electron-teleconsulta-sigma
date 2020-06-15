@@ -25,6 +25,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+
+.icon-CV_adjuntar:before {
+  content: "\e911";
+}
+
 .icon-CV_cancelar_llamada:before {
   content: "\e90a";
 }
