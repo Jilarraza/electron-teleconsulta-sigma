@@ -5,6 +5,7 @@ const display_content = document.querySelector('#display-content');
 const botones = document.querySelector('#botones');
 const { setupScreenSharingRender }  = require('jitsi-meet-electron-utils');
 let file_to_upload;
+let message_counter = 0;
 
 ipcRenderer.on('room_data', (event, data) => {
     display_content.innerHTML = generateDisplayContent();
@@ -28,9 +29,8 @@ ipcRenderer.on('room_data', (event, data) => {
             NATIVE_APP_NAME: 'SD TeleConsulta',
             PROVIDER_NAME: 'SD TeleConsulta',
             TOOLBAR_BUTTONS: [
-                'microphone', 'camera', 'desktop', 'fullscreen',
-                'fodeviceselection', 'hangup', 'recording', 'etherpad', 'sharedvideo', 'raisehand',
-                'videoquality','tileview', 'download', 'mute-everyone'
+                'microphone', 'camera', 'desktop', 'fullscreen', 'fodeviceselection', 'hangup', 
+                'etherpad', 'raisehand', 'videoquality','tileview', 'download', 'mute-everyone'
             ],
             SHOW_JITSI_WATERMARK : false,
             SHOW_WATERMARK_FOR_GUESTS: false,
@@ -116,7 +116,7 @@ ipcRenderer.on('stand_alone_run', (event, data) => {
 const generateButton = () => {
     let innerHtml = /*html*/`
             <li class="nav-item">
-                <a class="nav-link" onclick="toggleChat()"> <i class="icon icon-CV_Chat"></i> Chat</a>
+                <a class="nav-link" onclick="toggleChat()"> <i class="icon icon-CV_Chat"></i> Chat<span id="message_badge" class="badge badge-danger d-none"></span></a>
             </li>
         `;
     return innerHtml;
@@ -137,6 +137,7 @@ const getRates = () => {
 }
 
 const toggleChat = () => {
+    hideMessageBadge();
     let element = document.getElementById("chat");
     if (element.classList.contains('d-none')){
         element.classList.remove("d-none");
@@ -146,6 +147,7 @@ const toggleChat = () => {
 }
 
 const sendMessage = () => {
+    hideMessageBadge();
     let message = document.querySelector("#message");
     if(message.value == ''){
         return;
@@ -162,10 +164,16 @@ const sendMessage = () => {
 }
 
 const addMessage = (email, message) => {
-    var liMessage = document.createElement('li');
+    message_counter++;
+    let message_badge = document.querySelector('#message_badge');
+    message_badge.innerHTML = message_counter;
+    message_badge.classList.remove('d-none');
+    let audio = document.querySelector('#audio');
+    audio.play();
+    let liMessage = document.createElement('li');
     liMessage.className = 'respuesta';
     document.querySelector('#chat-container').appendChild(liMessage);
-    var pMessage = document.createElement('p');
+    let pMessage = document.createElement('p');
     pMessage.innerHTML = message;
     liMessage.appendChild(pMessage);
     document.querySelector('.scroll-chat').scrollTop =  document.querySelector('.scroll-chat').scrollHeight;
@@ -199,15 +207,20 @@ const changeView = (view, last) => {
 }
 
 const uploadFile = () => {
+    hideMessageBadge();
     const upload_file = document.querySelector('#upload_file');
     const upload_file_progress = document.querySelector('#upload_file_progress');
     const upload_file_button = document.querySelector('#upload_file_button');
+    let counter = 0;
     upload_file.click();
     upload_file.addEventListener("change", function(e) {
-        if(upload_file.files[0]){
-            upload_file_progress.style.display = "block";
-            upload_file_button.style.display = "none";
-            uploadFirebaseFile(upload_file.files[0]);
+        counter++;
+        if(counter == 1){
+            if(upload_file.files[0]){
+                upload_file_progress.style.display = "block";
+                upload_file_button.style.display = "none";
+                uploadFirebaseFile(upload_file.files[0]);
+            }
         }
     });
 }
@@ -222,6 +235,14 @@ const hideProgressBar = () => {
     upload_file_progress.style.display = "none";
     const upload_file_button = document.querySelector('#upload_file_button');
     upload_file_button.style.display = "block";
+}
+
+const hideMessageBadge = () => {
+    let message_badge = document.querySelector('#message_badge');
+    message_counter = 0;
+    message_badge.innerHTML = message_counter;
+    message_badge.classList.remove('d-none');
+    message_badge.classList.add('d-none');
 }
 
 const generateDisplayContent = () => {
@@ -257,6 +278,7 @@ const generateDisplayContent = () => {
             </div>
             <input type="file" id="upload_file" style="display: none;"/>
         </section>
+        <audio id="audio" controls style="display:none;"><source type="audio/mp3" src="notification.mp3"></audio>
     `;
     return innerHTML;
 }

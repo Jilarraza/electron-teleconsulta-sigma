@@ -38,17 +38,18 @@ const newMessage = (message) => {
 }
 
 const uploadFirebaseFile = (file) => {
+    let counter = 0;
     let storage = firebase.storage().ref(file.name);
     let upload = storage.put(file);
     upload.on("state_changed",
-        function progress(snapshot) {
+        (snapshot) => {
             let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             updateProgressValue(percentage);
         },
-        function error(error) {
+        (error) => {
             hideProgressBar();
         },
-        function complete() {
+        () => {
             hideProgressBar();
             storage.getDownloadURL().then(function(url) {
                 newMessage(`<a href="${url}" download>${file.name}</a>`);

@@ -1,7 +1,7 @@
 {
   "name": "teleconsulta-sigma",
   "productName": "SD TeleConsulta",
-  "version": "1.4.2",
+  "version": "1.5.2",
   "description": "Aplicacion de enlace a plataforma TeleConsulta de SD Sigma.",
   "main": "src/index.js",
   "scripts": {
