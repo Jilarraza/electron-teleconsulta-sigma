@@ -2,11 +2,17 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 let mainWindow;
 let deeplinkingUrl;
+const setupScreenSharingMain = require('jitsi-meet-electron-utils/screensharing/main.js');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
+
+app.commandLine.appendSwitch('disable-site-isolation-trials');
+// app.commandLine.appendSwitch('disable-webrtc-hw-encoding');
+// app.commandLine.appendSwitch('disable-webrtc-hw-decoding');
+app.allowRendererProcessReuse = false;
 
 const createWindow = () => {
   // Create the browser window.
@@ -29,6 +35,7 @@ const createWindow = () => {
     deeplinkingUrl = process.argv.slice(1);
     //console.log(deeplinkingUrl);
   }
+  setupScreenSharingMain(mainWindow, "SD Teleconsulta", );
   mainWindow.webContents.on('did-finish-load', function() {
     // mainWindow.webContents.executeJavaScript(`console.log("${deeplinkingUrl}")`);
     if((deeplinkingUrl[0] == ".") || (deeplinkingUrl[0] == null) || (deeplinkingUrl[0] == '--squirrel-firstrun')){

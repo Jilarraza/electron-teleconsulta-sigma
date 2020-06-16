@@ -3,6 +3,7 @@ const remote = electron.remote;
 const ipcRenderer = electron.ipcRenderer;
 const display_content = document.querySelector('#display-content');
 const botones = document.querySelector('#botones');
+const { setupScreenSharingRender }  = require('jitsi-meet-electron-utils');
 let file_to_upload;
 
 ipcRenderer.on('room_data', (event, data) => {
@@ -41,6 +42,7 @@ ipcRenderer.on('room_data', (event, data) => {
     };
     changeView("room", "home");
     const api = new JitsiMeetExternalAPI(domain, options);
+    setupScreenSharingRender(api);
     if(audio == 'false'){
         api.executeCommand('toggleAudio');
     }

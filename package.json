@@ -1,7 +1,7 @@
 {
   "name": "teleconsulta-sigma",
   "productName": "SD TeleConsulta",
-  "version": "1.3.4",
+  "version": "1.4.2",
   "description": "Aplicacion de enlace a plataforma TeleConsulta de SD Sigma.",
   "main": "src/index.js",
   "scripts": {
@@ -29,7 +29,8 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "teleconsulta_sigma",
-            "setupIcon": "src/icon.ico"
+            "setupIcon": "src/icon.ico",
+            "loadingGif": "src/loading.gif"
           }
         },
         {
@@ -51,16 +52,19 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "firebase": "^7.15.0"
+    "firebase": "^7.15.0",
+    "jitsi-meet-electron-utils": "github:jitsi/jitsi-meet-electron-utils#v2.0.7",
+    "js-utils": "github:jitsi/js-utils#cf11996bd866fdb47326c59a5d3bc24be17282d4"
   },
   "devDependencies": {
-    "electron-builder": "^22.7.0",
     "@electron-forge/cli": "^6.0.0-beta.51",
     "@electron-forge/maker-deb": "^6.0.0-beta.51",
     "@electron-forge/maker-rpm": "^6.0.0-beta.51",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
     "@electron-forge/maker-zip": "^6.0.0-beta.51",
-    "electron": "9.0.3"
+    "electron": "9.0.3",
+    "electron-builder": "^22.7.0",
+    "electron-rebuild": "^1.11.0"
   },
   "build": {
     "appId": "teleconsulta-sigma",
@@ -76,4 +80,3 @@
     "win": {}
   }
 }
-
